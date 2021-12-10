@@ -28,25 +28,24 @@ export default function Weather() {
   };
 
   const getWeather = ([lat, lon]) => {
-    console.log("done setting points");
-    if (points && points.length === 2) {
-      fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${key}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("temp", data);
-          if (data && data.main && data.main.temp) {
-            setWeather(data?.main?.temp);
-            setIcon(data?.weather[0]?.icon);
-          }
-        });
-    }
+    // if (points && points.length === 2) {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${key}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("temp", data);
+        if (data && data.main && data.main.temp) {
+          setWeather(data?.main?.temp);
+          setIcon(data?.weather[0]?.icon);
+        }
+        console.log("check", weather);
+      });
   };
 
-  // useEffect(() => {
-
-  // }, []);
+  useEffect(() => {
+    setPoints([]);
+  }, [weather]);
 
   return (
     <>
