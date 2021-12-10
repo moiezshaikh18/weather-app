@@ -12,11 +12,9 @@ export default function Weather() {
 
   const handleOnChange = (e) => {
     setCity(e.target.value);
-    console.log("City:", city);
-    console.log("On change");
   };
 
-  const handleClick = () => {
+  const getCordinates = () => {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=${mapkey}`
     )
@@ -24,16 +22,16 @@ export default function Weather() {
       .then((data) => {
         console.log("weather", data);
         if (data && data.features && data.features.length) {
-          setPoints(data.features[0].center);
+          setPoints(data.features);
         }
       });
   };
 
-  useEffect(() => {
+  const getWeather = ([lat, lon]) => {
     console.log("done setting points");
     if (points && points.length === 2) {
       fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${points[1]}&lon=${points[0]}&units=metric&appid=${key}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${key}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -44,7 +42,11 @@ export default function Weather() {
           }
         });
     }
-  }, [points]);
+  };
+
+  // useEffect(() => {
+
+  // }, []);
 
   return (
     <>
@@ -55,9 +57,24 @@ export default function Weather() {
           placeholder="Enter City Name..."
           onChange={handleOnChange}
         ></input>
-        <button id="btn" type="submit" onClick={handleClick}>
+        <button id="btn" type="submit" onClick={getCordinates}>
           GET WEATHER
         </button>
+        <div>
+          {points
+            ? points.map((location, index) => {
+                console.log("Location", index, location);
+                return (
+                  <div
+                    onClick={() => getWeather(location.center)}
+                    key={location.id}
+                  >
+                    <p>{location.place_name}</p>
+                  </div>
+                );
+              })
+            : "No Data Found"}
+        </div>
       </div>
       {weather ? (
         <div className="res">
