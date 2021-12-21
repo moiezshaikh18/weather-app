@@ -2,3 +2,6 @@
 *.js linguist-language=javaScript
 # .gitattributes file which reclassifies `.html` files as Html:
 *.html linguist-language=html
+*.css linguist-detectable=true
+*.js linguist-detectable=true
+*.html linguist-detectable=true
