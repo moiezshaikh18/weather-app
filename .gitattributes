@@ -1,1 +1,2 @@
-*html linguist-language=html
+# .gitattributes file which reclassifies `.js` files as JavaScript:
+*.js linguist-language=javaScript
